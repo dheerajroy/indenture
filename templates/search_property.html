@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %} Signin {% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center" style="margin-top: 90px; display: flex; flex-direction: column;">
+    <form method="get" action="{% url 'listing:search_property' %}">
+        <input type="text" name="address" placeholder="Address">
+        <input type="text" name="property_type" placeholder="Property Type">
+        <input type="text" name="transaction_type" placeholder="Transaction Type">
+        <input type="number" name="bhk" placeholder="BHK" min="1">
+        <input type="number" name="price" placeholder="Max Price" min="5000">
+        <button type="submit" class="btn btn-dark">Search</button>
+    </form>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+        {% for property in properties %}
+        <div class="card w-50">
+            <div class="card-body">
+                <h5 class="card-title">{{ property.address }}</h5>
+                <p class="card-text">price: {{ property.price }}, address: {{ property.address }}</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <a href="{% url 'listing:property' pk=property.id %}" class="btn btn-dark">Visit</a>
+                    <a href="tel:{{property.user_profile.phone_no}}" class="btn btn-dark">Call</a>
+                    {% if property.user_profile.user == user %}
+                    <a class="btn btn-dark" href="{% url 'listing:update_property' pk=property.id %}">Update</a>
+                    <form action="{% url 'listing:delete_property' pk=property.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-dark">delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>No properties listed</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

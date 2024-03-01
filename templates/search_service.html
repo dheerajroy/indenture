@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block title %} Signin {% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center" style="margin-top: 90px; display: flex; flex-direction: column;">
+    <form action="{% url 'listing:search_service' %}" method="get">
+        <input type="text" placeholder="Title" name="q">
+        <input type="text" placeholder="City" name="city">
+        <input type="text" placeholder="Country" name="country">
+        <input type="text" placeholder="Available Location" name="available_location">
+        <input type="submit" value="Search" class="btn btn-dark">
+    </form>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+        {% for service in services %}
+        <div class="card w-50">
+            <div class="card-body">
+                <h5 class="card-title">{{ service.title }} in {{ service.city }}, {{ service.country }}</h5>
+                <p class="card-text">Available location: {{ service.available_location }}, google profile link: <a
+                        href="{{ service.google_profile }}">{{ service.google_profile }}</a></p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <a class="btn btn-dark" href="tel:{{ service.user_profile.phone_no }}">Call</a>
+                    {% if service.user_profile.user == user %}
+                    <a class="btn btn-dark" href="{% url 'listing:update_service' pk=service.id %}">Update</a>
+                    <form action="{% url 'listing:delete_service' pk=service.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-dark">delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>No properties listed</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

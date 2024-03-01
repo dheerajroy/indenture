@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %} Signin {% endblock %}
+
+{% block content %}
+<div class="vh-100 d-flex align-items-center justify-content-center">
+    <div>
+        <h1>Sign In</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Sign In" class="btn btn-dark">
+        </form>
+    </div>
+</div>
+{% endblock %}

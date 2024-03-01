@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card" style="max-width: 600px; width: 100%;">
+        <img src="{{ profile.profile_picture.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ profile.name }}</h5>
+            <p class="card-text">@{{ profile.user }}</p>
+        </div>
+        <center>
+            <h4>Properties Listed</h4>
+        </center>
+        <ul class="list-group list-group-flush">
+            <center>
+            {% for property in properties %}
+            <div class="card w-50">
+                <div class="card-body">
+                    <h5 class="card-title">{{ property.address }}</h5>
+                    <p class="card-text">price: {{ property.price }}, address: {{ property.address }}</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <a href="{% url 'listing:property' pk=property.id %}" class="btn btn-dark">Visit</a>
+                        <a href="tel:{{property.user_profile.phone_no}}" class="btn btn-dark">Call</a>
+                        {% if property.user_profile.user == user %}
+                            <a class="btn btn-dark" href="{% url 'listing:update_property' pk=property.id %}">Update</a>
+                            <form action="{% url 'listing:delete_property' pk=property.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-dark">delete</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <p>No properties listed</p>
+            {% endfor %}
+            </center>
+        </ul>
+        <center>
+            <h4>Services Offered</h4>
+        </center>
+        <div class="list-group list-group-flush">
+            <center>
+                {% for service in services %}
+                    <div class="card w-50">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.title }} in {{ service.city }}, {{ service.country }}</h5>
+                            <p class="card-text">Available location: {{ service.available_location }}, google profile link: <a href="{{ service.google_profile }}">{{ service.google_profile }}</a></p>
+                            <div style="display: flex; gap: 10px; justify-content: center;">
+                                <a class="btn btn-dark" href="tel:{{ service.user_profile.phone_no }}">Call</a>
+                                {% if service.user_profile.user == user %}
+                                    <a class="btn btn-dark" href="{% url 'listing:update_service' pk=service.id %}">Update</a>
+                                    <form action="{% url 'listing:delete_service' pk=service.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-dark">delete</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </center>
+        </div>
+    </div>
+</div>
+{% endblock %}

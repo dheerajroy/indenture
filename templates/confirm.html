@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}Confirm{% endblock %}
+
+{% block content %}
+<div class="vh-100 d-flex align-items-center justify-content-center">
+    <div>
+        <h1>Sign Out</h1>
+        <form method="post">
+            {% csrf_token %}
+            Do you really want to proceed?
+            <button type="reset" class="btn btn-dark" onclick="location.href='/'">Cancel</button>
+            <input type="submit" value="Confirm" class="btn btn-dark">
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ property.property_type }} For {{ property.transaction_type }}{% endblock %}
+
+{% block content %}
+<div class="d-flexjustify-content-center">
+    <div class="container mt-5">
+        <div class="card">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ property.picture1.url }}" class="d-block w-100" alt="Slide 1">
+                    </div>
+                    {% if property.picture2 %}
+                        <div class="carousel-item">
+                            <img src="{{ property.picture2.url }}" class="d-block w-100" alt="Slide 2">
+                        </div>
+                    {% endif %}
+                    {% if property.picture3 %}
+                    <div class="carousel-item">
+                        <img src="{{ property.picture3.url }}" class="d-block w-100" alt="Slide 3">
+                    </div>
+                    {% endif %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+    
+            <div class="card-body">
+                <h5 class="card-title">{{ property.property_type }} for {{ property.transaction_type }}</h5>
+                <h5>{{ property.price }} INR</h5>
+                <p class="card-text"><b>Address:</b> {{ property.address }}</p>
+                <p class="card-text"><b>Description:</b> {{ property.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

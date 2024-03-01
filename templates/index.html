@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container-fluid d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+        <h1>Indenture</h1>
+        <p style="font-size: 20px;">Unlocking Dreams, One Key at a Time: Your Home Journey Begins Here!</p>
+        <div>
+            <a class="btn btn-dark" href="{% url 'listing:search_property' %}">Search Property</a>
+            <a class="btn btn-dark" href="{% url 'listing:search_service' %}">Search Services</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
